@@ -82,10 +82,34 @@ function parseGrid(grid){
     return values;
 }
 
+/*
+{
+    A1:"123456789",
+    ...
+    B2:"12",
+    C1:"1279",
 
-function eliminate(values,s,d){
-  // here
 }
+    
+    s = "A1", square to reduce
+    d = "5" number to eliminate
+    
+*/
+
+function eliminate(values, s, d) {
+    if (!values[s].contains(d)) {
+        return;
+    }
+    values[s] = values[s].replace(d, '');
+    if (values[s].length === 1) {
+        peers[s].forEach(
+            function (peer) {
+                eliminate(values, peer, values[s]);
+            });
+    }
+    return values;
+}
+   
 
 
 function draw(values){
@@ -93,3 +117,6 @@ function draw(values){
         document.getElementById(key).innerHTML = values[key]; 
     }
 }
+
+var x = parseGrid(puzzle);
+draw(x);
